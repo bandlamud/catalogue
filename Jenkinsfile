@@ -27,7 +27,6 @@ pipeline {
                 }
             }
         }
-        // install dependencies
         stage('Install Dependencies') {
             steps {
                 script {
@@ -37,7 +36,6 @@ pipeline {
                 }
             }
         }
-        // Build the image and pushing to docker images
         stage('Build Image') {
             steps {
                 script {
