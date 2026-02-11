@@ -121,7 +121,7 @@ pipeline {
                         --exit-code 1 \
                         --no-progress \
                         --format table \
-                        ${ACC_ID}022779559954.dkr.ecr.us-east-1.amazonaws.com/r${PROJECT}/${COMPONENT}:${appVersion}
+                        ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/r${PROJECT}/${COMPONENT}:${appVersion}
                     """
                 }
             }
