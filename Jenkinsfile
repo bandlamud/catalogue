@@ -110,8 +110,7 @@ pipeline {
                 }
             }
         }
-    }
-        /* stage('Trivy Scan'){
+        stage('Trivy Scan'){
             steps {
                 script{
                     sh """
@@ -126,25 +125,10 @@ pipeline {
                     """
                 }
             }
-        } */
-
-        stage('Trivy Scan') {
-            steps {
-                script {
-                    sh """
-                        trivy image \
-                        --scanners vuln \
-                        --severity HIGH,CRITICAL,MEDIUM \
-                        --pkg-types os \
-                        --exit-code 1 \
-                        --no-progress \
-                        --format table \
-                        ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${appVersion}
-            """
         }
     }
-}
-       
+        
+     
         post { 
             always { 
                 echo 'I will always say Hello again!'
