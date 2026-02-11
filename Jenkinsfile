@@ -36,6 +36,15 @@ pipeline {
                 }
             }
         }
+         stage('Unit test') {
+            steps {
+                script {
+                    sh """
+                        npm test
+                    """
+                }
+            }
+        }
         stage('Build Image') {
             steps {
                 script {
@@ -56,10 +65,10 @@ pipeline {
         }
     }
        
-        post { 
-            always { 
-                echo 'I will always say Hello again!'
-                cleanWs()
+    post { 
+        always { 
+            echo 'I will always say Hello again!'
+            cleanWs()
             }
             success {
                 echo 'i will run if success'
