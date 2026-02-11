@@ -111,36 +111,36 @@ pipeline {
             }
         }
     }
-    stage('Trivy Scan'){
-        steps {
-            script{
-                sh """
-                    trivy image \
-                    --scanners vuln \
-                    --severity HIGH,CRITICAL,MEDIUM \
-                    --pkg-types os \
-                    --exit-code 1 \
-                    --no-progress \
-                    --format table \
-                    ${ACC_ID}022779559954.dkr.ecr.us-east-1.amazonaws.com/r${PROJECT}/${COMPONENT}:${appVersion}
-                """
+        stage('Trivy Scan'){
+            steps {
+                script{
+                    sh """
+                        trivy image \
+                        --scanners vuln \
+                        --severity HIGH,CRITICAL,MEDIUM \
+                        --pkg-types os \
+                        --exit-code 1 \
+                        --no-progress \
+                        --format table \
+                        ${ACC_ID}022779559954.dkr.ecr.us-east-1.amazonaws.com/r${PROJECT}/${COMPONENT}:${appVersion}
+                    """
+                }
             }
         }
-    }
        
-    post { 
-        always { 
-            echo 'I will always say Hello again!'
-            cleanWs()
-            }
-            success {
-                echo 'i will run if success'
-            }
-            failure {
-                echo 'i will run if failure'
-            }
-            aborted {
-                echo 'pipeline is aborted'
+        post { 
+            always { 
+                echo 'I will always say Hello again!'
+                cleanWs()
+                }
+                success {
+                    echo 'i will run if success'
+                }
+                failure {
+                    echo 'i will run if failure'
+                }
+                aborted {
+                    echo 'pipeline is aborted'
+                }
             }
         }
-    }
