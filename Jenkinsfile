@@ -8,11 +8,15 @@ pipeline {
     environment { 
         COURSE = 'jenkins'
         appVersion = " "
+        ACC_ID = "022779559954"
+        PROJECT = "roboshop"
+        COMPONENT = "catalogue"
     }
     options {
         timeout(time: 1, unit: 'HOURS') 
         disableConcurrentBuilds()
     }
+    // finding application version
     stages {
         stage('Read version') {
             steps {
@@ -23,6 +27,7 @@ pipeline {
                 }
             }
         }
+        // install dependencies
         stage('Install Dependencies') {
             steps {
                 script {
@@ -32,39 +37,26 @@ pipeline {
                 }
             }
         }
-          stage('Build Image') {
+        // Build the image and pushing to docker images
+        stage('Build Image') {
             steps {
                 script {
-                    sh """
-                        docker build -t catalogue:${appVersion} .
-                        docker images
-                    """
-                }
-            }
-        }
-        stage('Deploy') {
-            // input {
-            //     message "Should we continue?"
-            //     ok "Yes, we should."
-            //     submitter "alice,bob"
-            //     parameters {
-            //         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-            //     }
-            // }
-            when {
-                expression { "$params.DEPLOY"  == "true" }
+                    withAWS(region:'us-east-1',credentials:'aws-creds') {
+                        sh """
+                            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com
 
+                            docker build -t ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${appVersion} .
+
+                            docker images
+
+                            docker push ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${appVersion}
+                        """
+
+                    }
                 }
-            steps {
-                script {
-                    sh """
-                    echo "Deploying"
-                    """
-                }
-                
             }
         }
-    }
+       
      post { 
         always { 
             echo 'I will always say Hello again!'
