@@ -54,19 +54,21 @@ pipeline {
                 }
             }
         }
+    }
        
-     post { 
-        always { 
-            echo 'I will always say Hello again!'
-            cleanWs()
-        }
-        success {
-            echo 'i will run if success'
-        }
-        failure {
-            echo 'i will run if failure'
-        }
-        aborted {
-            echo 'pipeline is aborted'
+        post { 
+            always { 
+                echo 'I will always say Hello again!'
+                cleanWs()
+            }
+            success {
+                echo 'i will run if success'
+            }
+            failure {
+                echo 'i will run if failure'
+            }
+            aborted {
+                echo 'pipeline is aborted'
+            }
         }
     }
