@@ -5,11 +5,9 @@ def configMap = [
     component: "catalogue"
 ]
 
-// if branch is not euql to main, then run CI pipeline
-if ( ! env.BRANCH_NAME.equalsIgnoreCase('main') ) {
+// if branch is not equal to main, then run CI pipeline
+if (!env.BRANCH_NAME.equalsIgnoreCase('main')) {
     nodeJSEKSPipeline(configMap)
-
-}
-else {
+} else {
     echo "Please follow the CR process"
 }
